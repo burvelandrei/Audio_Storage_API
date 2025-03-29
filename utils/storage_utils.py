@@ -18,7 +18,7 @@ def create_dir(dir_name: str):
     try:
         if not os.path.exists(dir_name):
             os.makedirs(dir_name)
-            logger.info(f"Created directory")
+            logger.info("Created directory")
     except Exception as e:
         logger.error(f"Failed to create directory: {e}")
         raise
@@ -48,8 +48,8 @@ async def save_file(
     try:
         with open(filepath, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-    except Exception as e:
-        raise HTTPException(500, detail=f"File save error")
+    except Exception:
+        raise HTTPException(500, detail="File save error")
     return {
         "filename": final_filename,
         "filepath": filepath,

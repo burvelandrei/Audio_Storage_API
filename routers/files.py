@@ -15,7 +15,6 @@ from schemas.file import AudioFileOut
 from schemas.user import UserOut
 from services.auth import get_current_user
 from utils.storage_utils import save_file
-from config import settings
 
 router = APIRouter(prefix="/files")
 
@@ -52,7 +51,10 @@ async def get_list_files(
     user: UserOut = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
-    files = await AudioFileDO.get_by_owner_id(owner_id=user.id, session=session)
+    files = await AudioFileDO.get_by_owner_id(
+        owner_id=user.id,
+        session=session,
+    )
     if not files:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
