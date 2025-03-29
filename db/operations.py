@@ -124,3 +124,18 @@ class AudioFileDO(BaseDO):
     """Класс c операциями для модели AudioFile"""
 
     model = AudioFile
+
+    @classmethod
+    async def get_by_owner_id(cls, session: AsyncSession, owner_id: int):
+        """Получить все элементы по owner_id"""
+        try:
+            logger.info(f"Fetching AudioFile with owner_id")
+            query = select(cls.model).where(cls.model.owner_id == owner_id)
+            result = await session.execute(query)
+            return result.scalars().all()
+        except Exception as e:
+            logger.error(
+                f"An error occurred while fetching "
+                f"AudioFile with owner_id: {e}",
+            )
+            raise e
