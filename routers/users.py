@@ -10,7 +10,11 @@ router = APIRouter(prefix="/users")
 
 
 # Роутер получения данных пользователя(доступен только админу)
-@router.get("/{user_id}/", response_model=UserOut)
+@router.get(
+        "/{user_id}/",
+        summary="Получить данные пользователя",
+        response_model=UserOut,
+)
 async def get_user(
     user_id: int,
     admin: UserOut = Depends(check_admin),
@@ -26,7 +30,11 @@ async def get_user(
 
 
 # Роутер изменения данных пользователя(доступен только админу)
-@router.patch("/{user_id}/", response_model=UserOut)
+@router.patch(
+        "/{user_id}/",
+        summary="Обновить данные пользователя",
+        response_model=UserOut,
+)
 async def update_user(
     user_id: int,
     user_update: UserModify,
@@ -53,7 +61,10 @@ async def update_user(
 
 
 # Роутер удаления пользователя(доступен только админу)
-@router.delete("/{user_id}/")
+@router.delete(
+        "/{user_id}/",
+        summary="Удалить пользователя",
+)
 async def delete_user(
     user_id: int,
     admin: UserOut = Depends(check_admin),

@@ -19,8 +19,8 @@ from utils.storage_utils import save_file
 router = APIRouter(prefix="/files")
 
 
-# Роутер по созданию файла
-@router.post("/upload/")
+# Роутер для загрузки аудиофайла
+@router.post("/upload/", summary="Загрузка аудиофайла")
 async def upload_audio(
     file: UploadFile = File(...),
     custom_filename: str = Form(None),
@@ -45,7 +45,11 @@ async def upload_audio(
 
 
 # Роутер получения всех файлов пользователя
-@router.get("/", response_model=list[AudioFileOut])
+@router.get(
+        "/",
+        summary="Получение списка файлов пользователя",
+        response_model=list[AudioFileOut],
+)
 async def get_list_files(
     user: UserOut = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),

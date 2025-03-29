@@ -14,7 +14,7 @@ router = APIRouter(prefix="/auth")
 
 
 # Перенаправление на авторизацию яндекса
-@router.get("/yandex/")
+@router.get("/yandex/", summary="Перенаправление на oauth яндекс")
 async def auth_yandex():
     auth_url = (
         f"https://oauth.yandex.ru/authorize?"
@@ -25,7 +25,7 @@ async def auth_yandex():
 
 
 # Приём ответа после авторизации
-@router.get("/yandex/callback/")
+@router.get("/yandex/callback/", summary="Обработка ответа от oauth яндекса")
 async def auth_yandex_callback(
     code: str,
     session: AsyncSession = Depends(get_session),
@@ -91,7 +91,7 @@ async def auth_yandex_callback(
 
 
 # Обновление access токена
-@router.post("/token/refresh/")
+@router.post("/token/refresh/", summary="Обновление access токена")
 async def refresh_access_token(
     token_data: RefreshTokenRequest,
 ):

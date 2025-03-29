@@ -12,7 +12,11 @@ from utils.middlewares import (
 from utils.storage_utils import lifespan
 
 
-app = FastAPI(title="Audio Storage API", lifespan=lifespan)
+app = FastAPI(
+    title="Audio Storage API",
+    lifespan=lifespan,
+    summary="API для хранения аудио файлов",
+)
 
 # Подключение миддлвари и обработчиков ошибок для логов
 app.add_middleware(LogRequestsMiddleware)
