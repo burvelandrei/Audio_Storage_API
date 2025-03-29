@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     YANDEX_CLIENT_ID: str
     YANDEX_CLIENT_SECRET: str
     REDIRECT_URI: str = (
-        f"http://{SERVER_HOST}:{SERVER_PORT}/auth/yandex/callback"
+        f"http://{SERVER_HOST}:{SERVER_PORT}/auth/yandex/callback/"
     )
 
     UPLOAD_DIR: str = "uploads"
