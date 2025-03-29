@@ -34,7 +34,7 @@ async def save_file(
     user_id: int,
     custom_filename: str | None,
 ) -> dict:
-    """Сохранение файла"""
+    """Сохраненяет файл"""
     user_upload_dir = os.path.join(settings.UPLOAD_DIR, str(user_id))
     create_dir(user_upload_dir)
     original_filename = file.filename
@@ -48,7 +48,9 @@ async def save_file(
     try:
         with open(filepath, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-    except Exception:
+        logger.info("File saved successfully")
+    except Exception as e:
+        logger.error(f"File save failed: {str(e)}")
         raise HTTPException(500, detail="File save error")
     return {
         "filename": final_filename,
@@ -58,5 +60,6 @@ async def save_file(
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    """Создает корневую директорию для загрузок"""
     create_dir(dir_name=settings.UPLOAD_DIR)
     yield

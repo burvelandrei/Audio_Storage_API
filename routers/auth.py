@@ -13,7 +13,7 @@ from config import settings
 router = APIRouter(prefix="/auth")
 
 
-# Перенаправление на авторизацию Яндекса
+# Перенаправление на авторизацию яндекса
 @router.get("/yandex/")
 async def auth_yandex():
     auth_url = (
@@ -30,6 +30,7 @@ async def auth_yandex_callback(
     code: str,
     session: AsyncSession = Depends(get_session),
 ):
+    # получение токена от яндекса
     async with httpx.AsyncClient() as client:
         token_response = await client.post(
             "https://oauth.yandex.ru/token",
@@ -42,16 +43,14 @@ async def auth_yandex_callback(
             },
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
-
     if token_response.status_code != 200:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Error getting token",
         )
-
     token_data = token_response.json()
     yandex_access_token = token_data["access_token"]
-
+    # получение данных пользователя(yandex_id, login)
     async with httpx.AsyncClient() as client:
         user_info_response = await client.get(
             "https://login.yandex.ru/info",
@@ -63,13 +62,14 @@ async def auth_yandex_callback(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Error getting user data",
         )
-
     user_data = user_info_response.json()
-    yandex_id = user_data["id"]
+    yandex_id = user_data.get("id")
     username = user_data.get("login", "unknown")
-
-    user = await UserDO.get_by_yandex_id(yandex_id=yandex_id, session=session)
-
+    # проверка наличия пользователя
+    user = await UserDO.get_by_yandex_id(
+        yandex_id=yandex_id, session=session,
+    )
+    # добавление пользователя в БД, если его нет
     if not user:
         user = await UserDO.add(
             session=session,
@@ -78,7 +78,6 @@ async def auth_yandex_callback(
                 "username": username,
             },
         )
-
     access_token = create_access_token(data={"sub": str(user.id)})
     refresh_token = create_refresh_token(data={"sub": str(user.id)})
     return JSONResponse(

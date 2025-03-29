@@ -106,7 +106,9 @@ class UserDO(BaseDO):
 
     @classmethod
     async def get_by_yandex_id(cls, session: AsyncSession, yandex_id: int):
-        """Получить элементы по yandex_id или вернуть None если нет"""
+        """
+        Получить данные пользователя по yandex_id или вернуть None если нет
+        """
         try:
             logger.info("Fetching User with yandex_id")
             query = select(cls.model).where(cls.model.yandex_id == yandex_id)
@@ -127,7 +129,7 @@ class AudioFileDO(BaseDO):
 
     @classmethod
     async def get_by_owner_id(cls, session: AsyncSession, owner_id: int):
-        """Получить все элементы по owner_id"""
+        """Получить все файлы по owner_id"""
         try:
             logger.info("Fetching AudioFile with owner_id")
             query = select(cls.model).where(cls.model.owner_id == owner_id)

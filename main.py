@@ -19,7 +19,7 @@ app.add_middleware(LogRequestsMiddleware)
 app.add_exception_handler(StarletteHTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, global_exception_handler)
-# Подключение рутов
+# Подключение роутеров
 app.include_router(auth.router)
 app.include_router(files.router)
 app.include_router(users.router)

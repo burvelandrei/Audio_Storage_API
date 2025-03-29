@@ -38,7 +38,6 @@ async def upload_audio(
             "owner_id": user.id,
         },
     )
-
     return JSONResponse(
         content="The file was saved successfully",
         status_code=status.HTTP_201_CREATED,
