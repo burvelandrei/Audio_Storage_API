@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class AudioFileSchema(BaseModel):
+class AudioFileOut(BaseModel):
     id: int
     filename: str
     filepath: str
