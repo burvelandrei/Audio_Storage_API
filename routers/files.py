@@ -33,7 +33,7 @@ async def upload_audio(
     )
     await AudioFileDO.add(
         session=session,
-        values={
+        **{
             "filename": saved_file["filename"],
             "filepath": saved_file["filepath"],
             "owner_id": user.id,
@@ -52,7 +52,7 @@ async def get_list_files(
     user: UserOut = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
-    files = AudioFileDO.get_by_owner_id(owner_id=user.id, session=session)
+    files = await AudioFileDO.get_by_owner_id(owner_id=user.id, session=session)
     if not files:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

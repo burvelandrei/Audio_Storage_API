@@ -109,7 +109,7 @@ class UserDO(BaseDO):
         """Получить элементы по yandex_id или вернуть None если нет"""
         try:
             logger.info(f"Fetching User with yandex_id")
-            query = select(cls.model).where(cls.model.id == yandex_id)
+            query = select(cls.model).where(cls.model.yandex_id == yandex_id)
             result = await session.execute(query)
             return result.scalar_one_or_none()
         except Exception as e:

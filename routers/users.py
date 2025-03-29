@@ -6,7 +6,7 @@ from db.connect import get_session
 from schemas.user import UserOut, UserModify
 from services.auth import get_current_user, check_admin
 
-router = APIRouter(prefix="/user")
+router = APIRouter(prefix="/users")
 
 
 @router.get("/{user_id}/", response_model=UserOut)

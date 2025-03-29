@@ -58,7 +58,7 @@ async def get_current_user(
         user_id = payload.get("sub")
         if not user_id:
             raise credentials_exception
-        user = await UserDO.get_by_id(id=user_id, session=session)
+        user = await UserDO.get_by_id(id=int(user_id), session=session)
         if not user:
             raise credentials_exception
         return user

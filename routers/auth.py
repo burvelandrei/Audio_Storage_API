@@ -73,14 +73,14 @@ async def auth_yandex_callback(
     if not user:
         user = await UserDO.add(
             session=session,
-            values={
+            **{
                 "yandex_id": yandex_id,
                 "username": username,
             },
         )
 
-    access_token = create_access_token(data={"sub": user.id})
-    refresh_token = create_refresh_token(data={"sub": user.id})
+    access_token = create_access_token(data={"sub": str(user.id)})
+    refresh_token = create_refresh_token(data={"sub": str(user.id)})
     return JSONResponse(
         content={
             "access_token": access_token,
@@ -95,7 +95,6 @@ async def auth_yandex_callback(
 @router.post("/token/refresh/")
 async def refresh_access_token(
     token_data: RefreshTokenRequest,
-    session: AsyncSession = Depends(get_session),
 ):
     invalid_refresh_token_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -117,7 +116,7 @@ async def refresh_access_token(
         )
     except jwt.PyJWTError:
         raise invalid_refresh_token_exception
-    new_access_token = create_access_token(data={"sub": user_id})
+    new_access_token = create_access_token(data={"sub": str(user_id)})
     return JSONResponse(
         content={
             "access_token": new_access_token,
