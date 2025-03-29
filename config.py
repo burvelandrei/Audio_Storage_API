@@ -11,9 +11,7 @@ class Settings(BaseSettings):
 
     YANDEX_CLIENT_ID: str
     YANDEX_CLIENT_SECRET: str
-    REDIRECT_URI: str = (
-        f"http://{SERVER_HOST}:{SERVER_PORT}/auth/yandex/callback/"
-    )
+    REDIRECT_URI: str = ""
 
     UPLOAD_DIR: str = "uploads"
 
@@ -27,6 +25,14 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
     )
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        if self.REDIRECT_URI is None:
+            self.REDIRECT_URI = (
+                f"http://{self.SERVER_HOST}:{self.SERVER_PORT}"
+                "/auth/yandex/callback/"
+            )
 
 
 settings = Settings()
