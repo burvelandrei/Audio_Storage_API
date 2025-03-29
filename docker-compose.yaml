@@ -1,6 +1,6 @@
 services:
   app:
-    image: burvelandre/audio-storage-api:latest
+    image: burvelandrei/audio-storage-api:latest
     container_name: audio-storage-api
     restart: unless-stopped
     volumes:
