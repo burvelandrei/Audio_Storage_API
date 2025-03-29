@@ -108,7 +108,7 @@ class UserDO(BaseDO):
     async def get_by_yandex_id(cls, session: AsyncSession, yandex_id: int):
         """Получить элементы по yandex_id или вернуть None если нет"""
         try:
-            logger.info(f"Fetching User with yandex_id")
+            logger.info("Fetching User with yandex_id")
             query = select(cls.model).where(cls.model.yandex_id == yandex_id)
             result = await session.execute(query)
             return result.scalar_one_or_none()
@@ -129,7 +129,7 @@ class AudioFileDO(BaseDO):
     async def get_by_owner_id(cls, session: AsyncSession, owner_id: int):
         """Получить все элементы по owner_id"""
         try:
-            logger.info(f"Fetching AudioFile with owner_id")
+            logger.info("Fetching AudioFile with owner_id")
             query = select(cls.model).where(cls.model.owner_id == owner_id)
             result = await session.execute(query)
             return result.scalars().all()

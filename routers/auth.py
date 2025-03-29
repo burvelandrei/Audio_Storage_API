@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from db.operations import UserDO
 from db.connect import get_session
 from schemas.user import RefreshTokenRequest
-from services.auth import create_access_token, create_refresh_token, get_current_user
+from services.auth import create_access_token, create_refresh_token
 from config import settings
 
 
