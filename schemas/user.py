@@ -9,8 +9,8 @@ class UserOut(BaseModel):
 
 
 class UserModify(BaseModel):
-    username: str | None
-    is_admin: bool | None
+    username: str | None = None
+    is_admin: bool | None = None
 
 
 class RefreshTokenRequest(BaseModel):
