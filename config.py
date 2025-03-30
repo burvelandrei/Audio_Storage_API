@@ -28,7 +28,7 @@ class Settings(BaseSettings):
 
     def __init__(self, **data):
         super().__init__(**data)
-        if self.REDIRECT_URI is None:
+        if not self.REDIRECT_URI:
             self.REDIRECT_URI = (
                 f"http://{self.SERVER_HOST}:{self.SERVER_PORT}"
                 "/auth/yandex/callback/"
